@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merry Christmas</title>
+    <!-- Favicon hình ngôi sao -->
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon fill='%23FFD700' stroke='%23FFA500' stroke-width='2' points='32 4 39.5 23.5 60 24 43 37 48 56 32 45.5 16 56 21 37 4 24 24.5 23.5 32 4'/%3E%3C/svg%3E">
     <style>
         body {
             margin: 0;
@@ -221,6 +224,187 @@
             }
         }
 
+        /* Popup styles */
+        .star-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .star-popup-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .star-popup {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 30px 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: popupSlide 0.4s ease;
+            position: relative;
+        }
+
+        @keyframes popupSlide {
+            from {
+                transform: scale(0.7) translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .star-popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #FFD700;
+            font-size: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .star-popup-close:hover {
+            transform: rotate(90deg) scale(1.2);
+        }
+
+        .star-popup h2 {
+            font-family: 'Ephesis', sans-serif;
+            font-size: 48px;
+            color: #FFD700;
+            margin: 0 0 20px 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .star-popup .question {
+            font-size: 24px;
+            color: #fff;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .star-popup .answer {
+            font-size: 18px;
+            color: #E8F6F8;
+            margin: 15px 0;
+            line-height: 1.6;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border-left: 3px solid #FFD700;
+        }
+
+        .treeStar {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .treeStar:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hướng dẫn click vào ngôi sao */
+        .star-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #FFD700;
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: 2px solid #FFD700;
+            font-family: 'Ephesis', sans-serif;
+            font-size: 28px;
+            text-align: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: hintPulse 2s ease-in-out infinite;
+        }
+
+        .star-hint.show {
+            opacity: 1;
+            animation: hintFadeIn 0.5s ease forwards, hintPulse 2s ease-in-out infinite 0.5s;
+        }
+
+        .star-hint.hide {
+            animation: hintFadeOut 0.5s ease forwards;
+        }
+
+        @keyframes hintFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes hintFadeOut {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+
+        @keyframes hintPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .star-popup {
+                padding: 20px 25px;
+            }
+
+            .star-popup h2 {
+                font-size: 36px;
+            }
+
+            .star-popup .question {
+                font-size: 20px;
+            }
+
+            .star-popup .answer {
+                font-size: 16px;
+            }
+
+            .star-hint {
+                font-size: 20px;
+                padding: 12px 20px;
+                max-width: 90%;
+            }
+        }
+
     </style>
 
 <body>
@@ -319,6 +503,26 @@
         </g>
     </svg>
     <h1 class="text typewriter">Merry Christmas</h1>
+    
+    <!-- Hướng dẫn click vào ngôi sao -->
+    <div class="star-hint" id="starHint">
+        ⭐ Ấn vào ngôi sao để khám phá! ⭐
+    </div>
+    
+    <!-- Popup khi click vào ngôi sao -->
+    <div class="star-popup-overlay" id="starPopup">
+        <div class="star-popup">
+            <button class="star-popup-close" onclick="closeStarPopup()">&times;</button>
+            <h2>⭐ Hello! ⭐</h2>
+            <div class="question">🎄 Câu hỏi Giáng Sinh:</div>
+            <div class="question">Ngày Giáng Sinh được tổ chức vào ngày nào?</div>
+            <div class="answer">
+                <strong>Trả lời:</strong> Ngày Giáng Sinh (Christmas) được tổ chức vào ngày 25 tháng 12 hàng năm. 
+                Đây là ngày kỷ niệm sự ra đời của Chúa Giêsu theo đạo Cơ Đốc. 
+                Ngày này được coi là một trong những ngày lễ quan trọng nhất trong năm và được tổ chức trên toàn thế giới với nhiều truyền thống khác nhau như trang trí cây thông, tặng quà, và sum họp gia đình.
+            </div>
+        </div>
+    </div>
     <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js"></script>
@@ -523,6 +727,20 @@
                 opacity: 1,
                 ease: "rough({strength: 2, points: 16, template: linear, taper: none, randomize: true, clamp: false})"
             }, '+=1')
+            .call(function() {
+                // Hiển thị hướng dẫn sau khi cây thông hiện ra hoàn toàn
+                setTimeout(function() {
+                    const hint = document.getElementById('starHint');
+                    if (hint) {
+                        hint.classList.add('show');
+                        // Tự động ẩn sau 5 giây
+                        setTimeout(function() {
+                            hint.classList.remove('show');
+                            hint.classList.add('hide');
+                        }, 5000);
+                    }
+                }, 500);
+            })
 
         mainTl.add(starTl, 0)
         gsap.globalTimeline.timeScale(1.5);
@@ -563,6 +781,51 @@
 
     // Tạo nhiều bông tuyết liên tục
     setInterval(createSnowflake, 50);
+
+    // Popup khi click vào ngôi sao
+    function openStarPopup() {
+        const popup = document.getElementById('starPopup');
+        popup.classList.add('show');
+    }
+
+    function closeStarPopup() {
+        const popup = document.getElementById('starPopup');
+        popup.classList.remove('show');
+    }
+
+    // Thêm event listener cho ngôi sao
+    document.addEventListener('DOMContentLoaded', function() {
+        const treeStar = document.querySelector('.treeStar');
+        if (treeStar) {
+            treeStar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Ẩn hướng dẫn khi click vào ngôi sao
+                const hint = document.getElementById('starHint');
+                if (hint) {
+                    hint.classList.remove('show');
+                    hint.classList.add('hide');
+                }
+                openStarPopup();
+            });
+        }
+
+        // Đóng popup khi click vào overlay
+        const overlay = document.getElementById('starPopup');
+        if (overlay) {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeStarPopup();
+                }
+            });
+        }
+
+        // Đóng popup khi nhấn phím ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeStarPopup();
+            }
+        });
+    });
 </script>
 
 </body>
