@@ -323,7 +323,7 @@
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MotionPathPlugin.min.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/Physics2DPlugin3.min.js"></script>
+    <!-- Bỏ Physics2DPlugin trial để tránh cảnh báo gsap-trial -->
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/EasePack3.min.js"></script>
     <script>
         MorphSVGPlugin.convertToPath('polygon');
@@ -417,39 +417,43 @@
 
         function playParticle(p) {
             if (!showParticle) { return };
-            var p = particlePool[particleCount]
+            var p = particlePool[particleCount];
+
+            // Lấy vị trí hiện tại của ngôi sao
+            const startX = gsap.getProperty('.pContainer', 'x');
+            const startY = gsap.getProperty('.pContainer', 'y');
+
             gsap.set(p, {
-                x: gsap.getProperty('.pContainer', 'x'),
-                y: gsap.getProperty('.pContainer', 'y'),
+                x: startX,
+                y: startY,
                 scale: getScale()
-            }
-            );
+            });
+
+            // Thay cho physics2D: dùng chuyển động x/y ngẫu nhiên với ease bình thường
+            const duration = gsap.utils.random(0.8, 4);
+            const deltaX = gsap.utils.random(-80, 80);
+            const deltaY = gsap.utils.random(40, 140);
+
             var tl = gsap.timeline();
             tl.to(p, {
-                duration: gsap.utils.random(0.61, 6),
-                physics2D: {
-                    velocity: gsap.utils.random(-23, 23),
-                    angle: gsap.utils.random(-180, 180),
-                    gravity: gsap.utils.random(-6, 50)
-                },
+                duration,
+                x: startX + deltaX,
+                y: startY + deltaY,
                 scale: 0,
                 rotation: gsap.utils.random(-123, 360),
-                ease: 'power1',
+                ease: 'power1.out',
                 onStart: flicker,
                 onStartParams: [p],
                 onRepeat: (p) => {
                     gsap.set(p, {
                         scale: getScale()
-                    })
+                    });
                 },
                 onRepeatParams: [p]
-
             });
 
-
             particleCount++;
-            particleCount = (particleCount >= numParticles) ? 0 : particleCount
-
+            particleCount = (particleCount >= numParticles) ? 0 : particleCount;
         }
 
         function drawStar() {
